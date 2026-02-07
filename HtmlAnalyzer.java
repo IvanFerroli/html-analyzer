@@ -148,6 +148,8 @@ public class HtmlAnalyzer {
             String[] parts = body.split("\\R", -1);
             return Arrays.asList(parts);
 
+        } catch (FetchException e) {
+            throw e;
         } catch (IllegalArgumentException e) {
             throw new FetchException("Bad URL", e);
         } catch (Exception e) {
