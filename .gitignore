@@ -1,4 +1,5 @@
 *.class
-submission.zip
+*.zip
 *.tar
 *.tar.gz
+submission.zip
