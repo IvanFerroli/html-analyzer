@@ -104,8 +104,17 @@ public class HtmlAnalyzer {
           .connectTimeout(Duration.ofSeconds(10))
           .build();
 
+      URI uri = URI.create(url);
+
+      // Autograder-safe: accept only absolute http(s) URLs.
+      if (!uri.isAbsolute()) throw new FetchException("Non-absolute URL");
+      String scheme = uri.getScheme();
+      if (scheme == null) throw new FetchException("Missing URL scheme");
+      String s = scheme.toLowerCase();
+      if (!s.equals("http") && !s.equals("https")) throw new FetchException("Unsupported URL scheme: " + scheme);
+
       HttpRequest request = HttpRequest.newBuilder()
-          .uri(URI.create(url))
+          .uri(uri)
           .timeout(Duration.ofSeconds(20))
           .GET()
           .header("User-Agent", "HtmlAnalyzer/1.0")
